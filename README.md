@@ -13,3 +13,9 @@ vehicles: https://www.fueleconomy.gov/feg/ws/index.shtml
 
 ### openweathermap.org
 1 year back historical weather api, free for 6 months for students: https://openweathermap.org/price#history
+
+### USA Holidays
+https://github.com/uWaterloo/Datasets/blob/master/Holidays/holidays.csv
+
+### Cars make with horse power
+https://corgis-edu.github.io/corgis/csv/cars/
