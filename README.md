@@ -7,10 +7,8 @@ vehicles: https://data.montgomerycountymd.gov/Public-Safety/Crash-Reporting-Driv
 ### fueleconomy.gov
 vehicles: https://www.fueleconomy.gov/feg/ws/index.shtml
 
-### openweathermap.org
-https://open-meteo.com/en/docs/historical-weather-api
+### open meteo
+[https://open-meteo.com/en/docs/historical-weather-api](https://open-meteo.com/en/docs/historical-weather-api)
 
-optional data:
-
-### USA Holidays
-https://github.com/uWaterloo/Datasets/blob/master/Holidays/holidays.csv
+### geographical data
+https://catalog.data.gov/dataset/zipcodes
