@@ -3,9 +3,26 @@ import os
 from dotenv import load_dotenv
 from sodapy import Socrata
 import pandas as pd
-
+import geopandas as gpd
+from shapely.wkt import loads as load_wkt
 
 load_dotenv('../.env')
+
+
+class Static:
+
+    BRANDS_DICT = None
+
+    MODELS_DICT = None
+
+    AREA_MAPPER = None
+
+
+class Config:
+
+    DWH_INITIALIZATION = False
+
+    FROM_FILES = False
 
 
 def soda_montgomery_request(dataset, start_date, end_date):
@@ -36,3 +53,71 @@ def soda_montgomery_request(dataset, start_date, end_date):
     results_df = pd.DataFrame.from_records(results)
 
     return results_df
+
+
+def fnv1a_hash_16_digit(s: str) -> int:
+    """
+    FNV-1a Hash Function to hash a string to a 16-digit deterministic integer value.
+
+    :param s: Input string to hash
+    :return: Deterministic 16-digit integer hash value
+    """
+    fnv_prime = 0x1000193
+    hash_value = 0xcbf29ce484222325
+
+    for char in s:
+        hash_value ^= ord(char)
+        hash_value *= fnv_prime
+        hash_value &= 0xffffffffffffffff
+
+    return hash_value % 10 ** 16
+
+
+def load_brands_dict(return_=False):
+    cars_mapper = pd.read_csv("../data/static/car_makes.txt")
+    brands_dict = cars_mapper.set_index('unique_makes_to_map')['unique_makes'].to_dict()
+    if return_:
+        return brands_dict
+    else:
+        Static.BRANDS_DICT = brands_dict
+
+
+def update_models_mapper(vehicles_agg):
+    models_mapper = pd.read_csv("../data/static/car_models.csv")
+    new_model_mapper = pd.concat([models_mapper, vehicles_agg])
+    new_model_mapper = new_model_mapper.drop_duplicates()
+    new_model_mapper.to_csv("../data/static/car_models.csv", index=False)
+
+
+def load_models_dict(return_=False):
+    models_mapper = pd.read_csv("../data/static/car_models.csv")
+    models_dict = {}
+
+    for index, row in models_mapper.iterrows():
+
+        key = (row['Year'], row['Make'])
+
+        if key not in models_dict:
+            models_dict[key] = []
+
+        models_dict[key].append(row['BaseModel'])
+
+    if return_:
+        return models_dict
+    else:
+        Static.MODELS_DICT = models_dict
+
+
+def load_area_mapper(return_=False):
+    area_mapper = pd.read_csv("../data/area_mapper.csv")
+    area_mapper['Geometry'] = area_mapper['Geometry'].apply(load_wkt)
+    gdf = gpd.GeoDataFrame(area_mapper, geometry='Geometry')
+    if return_:
+        return gdf
+    else:
+        Static.AREA_MAPPER = gdf
+
+
+def change_column_names(column_names):
+    columns = [col.lower().replace('', '_') for col in column_names]
+    return columns
