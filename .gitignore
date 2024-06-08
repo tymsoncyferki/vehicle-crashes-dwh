@@ -6,3 +6,5 @@ venv
 notebooks/.ipynb_checkpoints
 notebooks/.cache.sqlite
 
+etl/.cache.sqlite
+

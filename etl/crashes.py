@@ -4,7 +4,8 @@ import pandas as pd
 from shapely.geometry import Point
 
 from roads import generate_roaddim_key
-from utils import Static, Config
+from utils import Static
+from config import Config
 
 
 def filter_columns(data):

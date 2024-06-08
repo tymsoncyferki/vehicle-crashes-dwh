@@ -1,21 +1,9 @@
-import os
-
-from dotenv import load_dotenv
 from sodapy import Socrata
 import pandas as pd
 import geopandas as gpd
 from shapely.wkt import loads as load_wkt
 
-load_dotenv('../.env')
-
-
-class Config:
-
-    DWH_INITIALIZATION = True
-    """ if this is the first time laoding data into data warehouse """
-
-    FROM_FILES = False
-    """ if pipeline is run from local files instead api """
+from config import Config
 
 
 def load_brands_dict(return_=False):
@@ -107,9 +95,9 @@ def soda_montgomery_request(dataset, start_date, end_date):
     data_key = dataset_keys[dataset]
 
     client = Socrata("data.montgomerycountymd.gov",
-                     os.getenv('SOTA_TOKEN'),
-                     username=os.getenv('SOTA_USER'),
-                     password=os.getenv('SOTA_PWD'))
+                     Config.SOTA_TOKEN,
+                     username=Config.SOTA_USER,
+                     password=Config.SOTA_PWD)
 
     start_date = start_date.split(' ')[0]
     end_date = end_date.split(' ')[0]

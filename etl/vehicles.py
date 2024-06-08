@@ -4,7 +4,8 @@ import numpy as np
 import pandas as pd
 
 from utils import fnv1a_hash_16_digit
-from utils import Static, Config
+from utils import Static
+from config import Config
 
 
 def prepare_vehicles_data(data):

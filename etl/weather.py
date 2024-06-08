@@ -6,8 +6,6 @@ import openmeteo_requests
 import requests_cache
 from retry_requests import retry
 
-from utils import Config
-
 
 def extract_weather_data(zipcodes, start_date="2023-12-01 00:00:00", end_date="2023-12-31 23:00:00"):
     """
@@ -123,7 +121,8 @@ def transform_weather_fact(result):
     """
     # Generate unique keys
     result['LocationAreaKey'] = (
-            result['Longitude'].astype(str).str.replace('.', '', regex=False).str.replace('-', '', regex=False).str[:8] +
+            result['Longitude'].astype(str).str.replace('.', '', regex=False).str.replace('-', '', regex=False).str[
+            :8] +
             result['Latitude'].astype(str).str.replace('.', '', regex=False).str.replace('-', '', regex=False).str[:8]
     )
     result['LocationAreaKey'] = result['LocationAreaKey'].astype(np.int64)
@@ -132,7 +131,8 @@ def transform_weather_fact(result):
 
     result['WeatherKey'] = (
             result['DateHourKey'].astype(str)[2:] +
-            result['Longitude'].astype(str).str.replace('.', '', regex=False).str.replace('-', '', regex=False).str[1:6] +
+            result['Longitude'].astype(str).str.replace('.', '', regex=False).str.replace('-', '', regex=False).str[
+            1:6] +
             result['Latitude'].astype(str).str.replace('.', '', regex=False).str.replace('-', '', regex=False).str[1:6]
     )
     result['WeatherKey'] = (

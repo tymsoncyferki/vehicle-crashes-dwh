@@ -8,7 +8,9 @@ from roads import road_pipeline
 from weather import extract_weather_data, transform_weather_fact
 from datehour import generate_date_hour_dim
 from location import generate_location_area_dim
-from utils import load_models_dict, update_models_mapper, soda_montgomery_request, Static, Config
+from insertion import load_data_to_dwh
+from utils import load_models_dict, update_models_mapper, soda_montgomery_request, Static
+from config import Config
 
 
 class ETL:
@@ -26,7 +28,9 @@ class ETL:
 
     def extract_data(self, start_date, end_date):
         """ load data from different sources """
+        print("-----")
         print(f'RUNNING EXTRACTION from {start_date} to {end_date}')
+
         crash_data = soda_montgomery_request('incidents', start_date=start_date, end_date=end_date)
         self.crash_data = crash_data
         print('crash data rows:', len(self.crash_data))
@@ -58,6 +62,7 @@ class ETL:
 
     def transform_data(self):
         """ run transformations """
+        print("-----")
         print('RUNNING TRANSFORMATIONS')
 
         self.vehicles_data = vehicles_pipeline(self.vehicles_data)
@@ -88,6 +93,7 @@ class ETL:
 
     def join_data(self):
         """ generate foreign keys """
+        print("-----")
         print('RUNNING JOINING')
 
         self.drivers_data = drivers_mapping_pipeline(self.drivers_data)
@@ -121,20 +127,33 @@ class ETL:
 
     def load_data(self):
         """ load data to dwh"""
-        self.drivers_data.to_csv("../data/etl_out/VehicleCrashFact.csv", index=False)
-        self.vehicles_data.to_csv("../data/etl_out/VehicleDim.csv", index=False)
-        self.road_data.to_csv("../data/etl_out/RoadDim.csv", index=False)
-        self.weather_data.to_csv("../data/etl_out/WeatherFact.csv", index=False)
-        self.datehour_data.to_csv("../data/etl_out/DateHourDim.csv", index=False)
-        if Config.DWH_INITIALIZATION:
-            self.location_data.to_csv("../data/etl_out/LocationAreaDim.csv", index=False)
-        self.merged_data.to_csv("../data/etl_out/MergedData.csv", index=False)
-        print('Tables saved succesfully')
+        print("-----")
+        print("RUNNING DWH INSERTION")
+
+        if Config.DEBUG:
+            self.drivers_data.to_csv("../data/etl_out/VehicleCrashFact.csv", index=False)
+            self.vehicles_data.to_csv("../data/etl_out/VehicleDim.csv", index=False)
+            self.road_data.to_csv("../data/etl_out/RoadDim.csv", index=False)
+            self.weather_data.to_csv("../data/etl_out/WeatherFact.csv", index=False)
+            self.datehour_data.to_csv("../data/etl_out/DateHourDim.csv", index=False)
+            if Config.DWH_INITIALIZATION:
+                self.location_data.to_csv("../data/etl_out/LocationAreaDim.csv", index=False)
+            self.merged_data.to_csv("../data/etl_out/MergedData.csv", index=False)
+            print('Tables saved succesfully')
+
+        else:
+            load_data_to_dwh(self.road_data, 'RoadDim')
+            load_data_to_dwh(self.vehicles_data, 'VehicleDim')
+            if Config.DWH_INITIALIZATION:
+                load_data_to_dwh(self.location_data, 'LocationAreaDim')
+            load_data_to_dwh(self.datehour_data, 'DateHourDim')
+            load_data_to_dwh(self.weather_data, 'WeatherFact')
+            load_data_to_dwh(self.drivers_data, 'VehicleCrashFact')
 
 
 def main():
     etl = ETL()
-    etl.extract_data('2023-12-01 00:00:00', '2023-12-31 23:00:00')
+    etl.extract_data('2020-12-01 00:00:00', '2020-12-31 23:00:00')
     etl.transform_data()
     etl.join_data()
     etl.merge_data()

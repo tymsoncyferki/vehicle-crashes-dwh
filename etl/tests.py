@@ -1,9 +1,20 @@
 import unittest
 
+import pandas as pd
+
 from utils import soda_montgomery_request, Static
 from location import generate_location_area_dim
 from weather import extract_weather_data, transform_weather_fact
 from datehour import generate_date_hour_dim
+from insertion import load_data_to_dwh
+
+
+class TestInsertion(unittest.TestCase):
+
+    def test_insert_roaddim(self):
+        roaddim = pd.read_csv("../data/etl_out/RoadDim.csv")
+        success = load_data_to_dwh(roaddim, 'RoadDim')
+        self.assertTrue(success)
 
 
 class TestUtils(unittest.TestCase):
