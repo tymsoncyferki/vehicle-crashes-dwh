@@ -9,20 +9,84 @@ from shapely.wkt import loads as load_wkt
 load_dotenv('../.env')
 
 
-class Static:
-
-    BRANDS_DICT = None
-
-    MODELS_DICT = None
-
-    AREA_MAPPER = None
-
-
 class Config:
 
-    DWH_INITIALIZATION = False
+    DWH_INITIALIZATION = True
+    """ if this is the first time laoding data into data warehouse """
 
     FROM_FILES = False
+    """ if pipeline is run from local files instead api """
+
+
+def load_brands_dict(return_=False):
+    cars_mapper = pd.read_csv("../data/static/car_makes.txt")
+    brands_dict = cars_mapper.set_index('unique_makes_to_map')['unique_makes'].to_dict()
+    print('Brands mapper loaded')
+    if return_:
+        return brands_dict
+    else:
+        Static.BRANDS_DICT = brands_dict
+
+
+def load_models_dict(return_=False):
+    models_mapper = pd.read_csv("../data/static/car_models.csv")
+    models_dict = {}
+
+    for index, row in models_mapper.iterrows():
+        key = (row['Year'], row['Make'])
+        if key not in models_dict:
+            models_dict[key] = []
+        models_dict[key].append(row['BaseModel'])
+
+    print('Models mapper loaded')
+
+    if return_:
+        return models_dict
+    else:
+        Static.MODELS_DICT = models_dict
+
+
+def update_models_mapper(vehicles_agg):
+    models_mapper = pd.read_csv("../data/static/car_models.csv")
+    new_model_mapper = pd.concat([models_mapper, vehicles_agg])
+    new_model_mapper = new_model_mapper.drop_duplicates()
+    new_model_mapper.to_csv("../data/static/car_models.csv", index=False)
+    print('Models mapper updated')
+
+
+def load_area_mapper(return_=False):
+    area_mapper = pd.read_csv("../data/area_mapper.csv")
+    area_mapper['Geometry'] = area_mapper['Geometry'].apply(load_wkt)
+    gdf = gpd.GeoDataFrame(area_mapper, geometry='Geometry')
+    print("Area mapper loaded")
+    if return_:
+        return gdf
+    else:
+        Static.AREA_MAPPER = gdf
+
+
+def load_zipcodes(return_=False):
+    zipcodes = pd.read_csv("../data/ZIPCODES.csv")
+    print('Zipcodes data loaded')
+    if return_:
+        return zipcodes
+    else:
+        Static.ZIPCODES = zipcodes
+
+
+class Static:
+
+    BRANDS_DICT = load_brands_dict(return_=True)
+    """ mapper for car brands """
+
+    MODELS_DICT = load_models_dict(return_=True)
+    """ dictionary with keys 'Make', 'Year' and lists with 'BaseModel' as values for mapping car models """
+
+    AREA_MAPPER = load_area_mapper(return_=True)
+    """ mapper for mapping coordinates to location area key """
+
+    ZIPCODES = load_zipcodes(return_=True)
+    """ zipcodes data """
 
 
 def soda_montgomery_request(dataset, start_date, end_date):
@@ -73,51 +137,8 @@ def fnv1a_hash_16_digit(s: str) -> int:
     return hash_value % 10 ** 16
 
 
-def load_brands_dict(return_=False):
-    cars_mapper = pd.read_csv("../data/static/car_makes.txt")
-    brands_dict = cars_mapper.set_index('unique_makes_to_map')['unique_makes'].to_dict()
-    if return_:
-        return brands_dict
-    else:
-        Static.BRANDS_DICT = brands_dict
-
-
-def update_models_mapper(vehicles_agg):
-    models_mapper = pd.read_csv("../data/static/car_models.csv")
-    new_model_mapper = pd.concat([models_mapper, vehicles_agg])
-    new_model_mapper = new_model_mapper.drop_duplicates()
-    new_model_mapper.to_csv("../data/static/car_models.csv", index=False)
-
-
-def load_models_dict(return_=False):
-    models_mapper = pd.read_csv("../data/static/car_models.csv")
-    models_dict = {}
-
-    for index, row in models_mapper.iterrows():
-
-        key = (row['Year'], row['Make'])
-
-        if key not in models_dict:
-            models_dict[key] = []
-
-        models_dict[key].append(row['BaseModel'])
-
-    if return_:
-        return models_dict
-    else:
-        Static.MODELS_DICT = models_dict
-
-
-def load_area_mapper(return_=False):
-    area_mapper = pd.read_csv("../data/area_mapper.csv")
-    area_mapper['Geometry'] = area_mapper['Geometry'].apply(load_wkt)
-    gdf = gpd.GeoDataFrame(area_mapper, geometry='Geometry')
-    if return_:
-        return gdf
-    else:
-        Static.AREA_MAPPER = gdf
-
-
 def change_column_names(column_names):
     columns = [col.lower().replace('', '_') for col in column_names]
     return columns
+
+

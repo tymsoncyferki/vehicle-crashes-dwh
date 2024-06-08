@@ -1,6 +1,8 @@
 import unittest
 
-from utils import soda_montgomery_request
+from utils import soda_montgomery_request, Static
+from location import generate_location_area_dim
+from weather import extract_weather_data
 
 
 class TestUtils(unittest.TestCase):
@@ -14,3 +16,15 @@ class TestUtils(unittest.TestCase):
         print(len(df))
         print(df.columns)
         self.assertGreater(len(df), 900)
+
+
+class TestLocation(unittest.TestCase):
+
+    def test_location_generation(self):
+        df = generate_location_area_dim(Static.ZIPCODES)
+        self.assertEqual(len(df), 98)
+
+
+class TestWeather(unittest.TestCase):
+
+    pass

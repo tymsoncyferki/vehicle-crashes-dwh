@@ -1,3 +1,9 @@
+geopandas==0.14.4
+numpy==1.26.4
+openmeteo_requests==1.2.0
 pandas==2.2.2
 python-dotenv==1.0.1
+requests_cache==1.2.0
+retry_requests==2.0.0
+Shapely==2.0.4
 sodapy==2.2.0

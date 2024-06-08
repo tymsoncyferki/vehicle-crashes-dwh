@@ -100,7 +100,7 @@ def map_location(lat, long, gdf):
         area_key = result.loc[0]['LocationAreaKey']
     except (Exception,):
         area_key = 0
-    return area_key
+    return int(area_key)
 
 
 def mapping_pipeline(crashes, nonmoto_agg):

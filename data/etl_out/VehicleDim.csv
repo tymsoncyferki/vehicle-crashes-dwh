@@ -820,6 +820,7 @@ Audi,2025,Q7,164814726943,Standard Sport Utility Vehicle 4WD,4.0,2.0,Automatic 8
 Audi,2025,SQ7,9152589546098290,Standard Sport Utility Vehicle 4WD,8.0,4.0,Automatic 8,AWD,Premium Gasoline,15,21
 Aurora Cars Ltd,0,Unknown,4553737371982440,,0.0,0.0,,,,0,0
 Aurora Cars Ltd,1988,Aurora,8299545902360304,Two Seaters,8.0,4.9,Manual 5,RWD,Regular Gasoline,12,20
+Autocar,0,Unknown,7834757008124662,,0.0,0.0,,,,0,0
 Autokraft Limited,0,Unknown,1341833962997344,,0.0,0.0,,,,0,0
 Autokraft Limited,1986,A.C.Mkiv,7072466666153255,Two Seaters,8.0,4.9,Manual 5,RWD,Regular Gasoline,15,21
 Autokraft Limited,1987,A.C.Mkiv,7072466649375636,Two Seaters,8.0,5.0,Manual 5,RWD,Regular Gasoline,15,21
@@ -2936,6 +2937,7 @@ Consulier Industries Inc,0,Unknown,9949503260623369,,0.0,0.0,,,,0,0
 Consulier Industries Inc,1990,Consulier GTP,1535607712282793,Two Seaters,4.0,2.2,Manual 5,RWD,Regular Gasoline,18,24
 Consulier Industries Inc,1991,Consulier GTP,1535607695505174,Two Seaters,4.0,2.2,Manual 5,RWD,Regular Gasoline,18,24
 Consulier Industries Inc,1992,Consulier GTP,1535607678727555,Two Seaters,4.0,2.2,Manual 5,RWD,Regular Gasoline,18,24
+Crane,0,Unknown,2229471559302068,,0.0,0.0,,,,0,0
 Dabryan Coach Builders Inc,0,Unknown,3290106829772354,,0.0,0.0,,,,0,0
 Dabryan Coach Builders Inc,1995,WB,8294105417142601,Large Cars,8.0,4.6,Automatic 4,RWD,Regular Gasoline,14,22
 Dacia,0,Unknown,1963487411160047,,0.0,0.0,,,,0,0
@@ -3485,6 +3487,7 @@ Dodge,2023,Hornet,2629665684196369,Small Sport Utility Vehicle 4WD,4.0,2.0,Autom
 Dodge,2024,Durango,9203591852468154,Standard Sport Utility Vehicle 4WD,8.0,3.6,Automatic 8,AWD,Midgrade Gasoline,14,22
 Dodge,2024,Hornet,2629665700973988,Small Sport Utility Vehicle 4WD,4.0,1.3,Automatic 6,AWD,Regular Gasoline,21,29
 Dodge,2025,Hornet,2629665717751607,Small Sport Utility Vehicle 4WD,4.0,2.0,Automatic 9,AWD,Regular Gasoline,21,29
+Ducati,0,Unknown,214386014548259,,0.0,0.0,,,,0,0
 "E. P. Dutton, Inc.",0,Unknown,9104089533137222,,0.0,0.0,,,,0,0
 "E. P. Dutton, Inc.",1985,Funeral Coach,8644117373972686,Special Purpose Vehicles,8.0,4.1,Automatic 4,FWD,Regular Gasoline,15,21
 Eagle,0,Unknown,4361173758179045,,0.0,0.0,,,,0,0
@@ -4421,6 +4424,7 @@ Ford,2024,Maverick,1454240773203516,Small Pickup Trucks 2WD,4.0,2.0,Automatic 8,
 Ford,2024,Mustang,5592258980070287,Subcompact Cars,8.0,5.0,Automatic 10,RWD,Regular Gasoline,14,22
 Ford,2024,Mustang Mach-E,7001783600615724,Small Sport Utility Vehicle 4WD,0.0,0.0,Automatic 1,AWD,Electricity,95,81
 Ford,2024,Ranger,9697667791254485,Standard Pickup Trucks 4WD,4.0,2.3,Automatic 10,4WD,Regular Gasoline,16,18
+Freightliner,0,Unknown,2250767647570290,,0.0,0.0,,,,0,0
 GMC,0,Unknown,8882634665904292,,0.0,0.0,,,,0,0
 GMC,1984,Caballero Pickup,7513885123891283,Standard Pickup Trucks 2WD,8.0,5.0,Automatic 3,2WD,Regular Gasoline,15,19
 GMC,1984,Jimmy,9907689427924658,Special Purpose Vehicle 4WD,6.0,2.8,Manual 4,AWD,Regular Gasoline,15,22
@@ -4803,13 +4807,17 @@ Geo,1996,Tracker,9728986762515695,Special Purpose Vehicles,4.0,1.6,Manual 5,AWD,
 Geo,1997,Metro,5450103757311469,Subcompact Cars,4.0,1.3,Manual 5,FWD,Regular Gasoline,26,31
 Geo,1997,Prizm,7814833973119648,Subcompact Cars,4.0,1.6,Manual 5,FWD,Regular Gasoline,22,31
 Geo,1997,Tracker,9728986745738076,Special Purpose Vehicles,4.0,1.6,Manual 5,AWD,Regular Gasoline,21,24
+Gillig,0,Unknown,240722642832247,,0.0,0.0,,,,0,0
 Goldacre,0,Unknown,2428824077615540,,0.0,0.0,,,,0,0
 Goldacre,1991,Goldacre Limited,2688081684062601,Two Seaters,6.0,2.5,Manual 5,RWD,Premium Gasoline,16,22
+Grumman,0,Unknown,6684135874089884,,0.0,0.0,,,,0,0
 Grumman Allied Industries,0,Unknown,2373003397267957,,0.0,0.0,,,,0,0
 Grumman Allied Industries,1988,LLV,3073546464612797,Special Purpose Vehicle 2WD,4.0,2.5,Automatic 3,RWD,Regular Gasoline,16,18
 Grumman Olson,0,Unknown,1932526584336553,,0.0,0.0,,,,0,0
 Grumman Olson,1984,Kubvan,8111156898087394,Special Purpose Vehicle 2WD,4.0,1.6,Automatic 3,2WD,Diesel,27,27
 Grumman Olson,1985,Kubvan,8111156914865013,Special Purpose Vehicles,4.0,1.6,Automatic 3,FWD,Diesel,26,27
+Harley-Davidson,0,Unknown,617570202275685,,0.0,0.0,,,,0,0
+Hino,0,Unknown,3414161128511951,,0.0,0.0,,,,0,0
 Honda,0,Unknown,4595510051903263,,0.0,0.0,,,,0,0
 Honda,1984,Accord,6234083270807867,Subcompact Cars,4.0,1.8,Automatic 4,Unknown,Regular Gasoline,23,28
 Honda,1984,Civic,4412835578868703,Subcompact Cars,4.0,1.5,Manual 5,Unknown,Regular Gasoline,23,26
@@ -5586,6 +5594,7 @@ Infiniti,2024,QX50,8505784041274033,Small Sport Utility Vehicle 2WD,4.0,2.0,Auto
 Infiniti,2024,QX55,631288774288730,Small Sport Utility Vehicle 4WD,4.0,2.0,Automatic 8,AWD,Premium Gasoline,22,28
 Infiniti,2024,QX60,7258259543141378,Standard Sport Utility Vehicle 2WD,6.0,3.5,Automatic 9,AWD,Premium Gasoline,20,25
 Infiniti,2024,QX80,7632377635225972,Standard Sport Utility Vehicle 2WD,8.0,5.6,Automatic 7,4WD,Premium Gasoline,13,19
+International,0,Unknown,9755364676930633,,0.0,0.0,,,,0,0
 Isis Imports Ltd,0,Unknown,1361683605030273,,0.0,0.0,,,,0,0
 Isis Imports Ltd,1992,Morgan Plus 8,7607317970122972,Two Seaters,8.0,3.9,Manual 5,RWD,Premium Gasoline,16,28
 Isuzu,0,Unknown,2855389770578551,,0.0,0.0,,,,0,0
@@ -6120,6 +6129,7 @@ Jeep,2024,Grand Cherokee,9284200994140441,Standard Sport Utility Vehicle 4WD,6.0
 Jeep,2024,Grand Wagoneer,6875906254971533,Standard Sport Utility Vehicle 4WD,6.0,3.0,Automatic 8,AWD,Premium Gasoline,14,20
 Jeep,2024,Wagoneer,439305488016277,Standard Sport Utility Vehicle 2WD,6.0,3.0,Automatic 8,AWD,Regular Gasoline,16,23
 Jeep,2024,Wrangler,1014617237360019,Small Sport Utility Vehicle 4WD,6.0,3.6,Automatic 8,4WD,Regular Gasoline,16,23
+John Deere,0,Unknown,5223544289174785,,0.0,0.0,,,,0,0
 Kandi,0,Unknown,7039105572847252,,0.0,0.0,,,,0,0
 Kandi,2021,K27,2722983085334907,Compact Cars,0.0,0.0,Automatic 1,FWD,Electricity,127,102
 Karma,0,Unknown,1624821619693709,,0.0,0.0,,,,0,0
@@ -6127,6 +6137,8 @@ Karma,2018,Revero,6229741681316467,Subcompact Cars,4.0,2.0,Automatic 1,RWD,Premi
 Karma,2019,Revero,6229741664538848,Subcompact Cars,4.0,2.0,Automatic 1,RWD,Premium Gasoline,19,21
 Karma,2020,Revero,5385275780726128,Subcompact Cars,3.0,1.5,Automatic 1,RWD,Premium Gasoline,27,25
 Karma,2021,GS-6,9831975012918385,Subcompact Cars,3.0,1.5,Automatic 1,RWD,Premium Gasoline,22,21
+Kawasaki,0,Unknown,6703151496378279,,0.0,0.0,,,,0,0
+Kenworth,0,Unknown,4388744722969849,,0.0,0.0,,,,0,0
 Kenyon Corporation Of America,0,Unknown,1630625549802722,,0.0,0.0,,,,0,0
 Kenyon Corporation Of America,1984,Kenyon 5.0 Cabrio,3335905735734723,Two Seaters,8.0,5.0,Automatic 3,Unknown,Regular Gasoline,13,17
 Kenyon Corporation Of America,1984,Kenyon 5.0 Coupe,9824783477619691,Compact Cars,8.0,5.0,Automatic 3,Unknown,Regular Gasoline,13,17
@@ -7030,6 +7042,7 @@ Lucid,0,Unknown,5860663403655620,,0.0,0.0,,,,0,0
 Lucid,2022,Air,4887624580555036,Large Cars,0.0,0.0,Automatic 1,AWD,Electricity,110,111
 Lucid,2023,Air,4887624597332655,Large Cars,0.0,0.0,Automatic 1,AWD,Electricity,121,120
 Lucid,2024,Air,4887624546999798,Large Cars,0.0,0.0,Automatic 1,AWD,Electricity,108,101
+MCI,0,Unknown,9358925036124646,,0.0,0.0,,,,0,0
 MINI,0,Unknown,932320174390296,,0.0,0.0,,,,0,0
 MINI,2002,Cooper,4388222164821684,Minicompact Cars,4.0,1.6,Automatic CVT,FWD,Premium Gasoline,22,29
 MINI,2003,Cooper,4388222181599303,Minicompact Cars,4.0,1.6,Automatic CVT,FWD,Premium Gasoline,22,29
@@ -7111,6 +7124,7 @@ MINI,2024,John Cooper Works,6848846601815989,Midsize Cars,4.0,2.0,Automatic 8,FW
 MINI,2025,Cooper,3825244209879079,Subcompact Cars,4.0,2.0,Automatic 7,FWD,Premium Gasoline,28,39
 MINI,2025,Countryman,5226203083056251,Small Sport Utility Vehicle 4WD,4.0,2.0,Automatic 7,AWD,Premium Gasoline,24,32
 MINI,2025,John Cooper Works,6848846585038370,Small Sport Utility Vehicle 4WD,4.0,2.0,Automatic 7,AWD,Premium Gasoline,23,30
+Mack,0,Unknown,213975767330911,,0.0,0.0,,,,0,0
 Mahindra,0,Unknown,2634721871812801,,0.0,0.0,,,,0,0
 Mahindra,2011,TR40,4825624876335661,Standard Pickup Trucks 4WD,4.0,2.2,Automatic 6,4WD,Diesel,19,21
 Maserati,0,Unknown,3840102250746799,,0.0,0.0,,,,0,0
@@ -8158,6 +8172,7 @@ Merkur,1988,Scorpio,9961287238079970,Midsize Cars,6.0,2.9,Automatic 4,RWD,Regula
 Merkur,1988,XR4Ti,5241553536232470,Compact Cars,4.0,2.3,Automatic 3,RWD,Regular Gasoline,16,20
 Merkur,1989,Scorpio,9961287254857589,Midsize Cars,6.0,2.9,Automatic 4,RWD,Regular Gasoline,15,21
 Merkur,1989,XR4Ti,5241553553010089,Compact Cars,4.0,2.3,Automatic 3,RWD,Regular Gasoline,16,20
+Metro,0,Unknown,789604639519848,,0.0,0.0,,,,0,0
 Mitsubishi,0,Unknown,2150933454680424,,0.0,0.0,,,,0,0
 Mitsubishi,1984,Cordia,2903571881330394,Subcompact Cars,4.0,2.0,Manual 5,Unknown,Regular Gasoline,20,27
 Mitsubishi,1984,Montero,4186405521524070,Special Purpose Vehicle 4WD,4.0,2.6,Automatic 3,AWD,Regular Gasoline,16,18
@@ -8432,6 +8447,8 @@ Mobility Ventures LLC,2016,MV-1,7315607308567977,Special Purpose Vehicle 2WD,6.0
 Morgan,0,Unknown,2296148233847207,,0.0,0.0,,,,0,0
 Morgan,2002,Plus Eight,9306743451826712,Two Seaters,8.0,3.9,Manual 5,RWD,Premium Gasoline,15,22
 Morgan,2003,Plus Eight,9306743468604331,Two Seaters,8.0,4.0,Manual 5,RWD,Premium Gasoline,15,22
+NABI,0,Unknown,251816279034915,,0.0,0.0,,,,0,0
+New Flyer,0,Unknown,6259949909495943,,0.0,0.0,,,,0,0
 Nissan,0,Unknown,6801964070250583,,0.0,0.0,,,,0,0
 Nissan,1984,200SX,1149131930557276,Subcompact Cars,4.0,1.8,Automatic 4,Unknown,Regular Gasoline,19,24
 Nissan,1984,300ZX,5392454579582286,Subcompact Cars,6.0,3.0,Automatic 4,Unknown,Regular Gasoline,16,20
@@ -8904,6 +8921,8 @@ Nissan,2024,Sentra,6784325164972930,Midsize Cars,4.0,2.0,Automatic CVT,FWD,Regul
 Nissan,2024,Titan,5867977831121721,Standard Pickup Trucks 4WD,8.0,5.6,Automatic 9,4WD,Premium Gasoline,15,21
 Nissan,2024,Versa,4505130538842190,Compact Cars,4.0,1.6,Automatic CVT,FWD,Regular Gasoline,27,35
 Nissan,2024,Z,4035953927135149,Two Seaters,6.0,3.0,Automatic 9,RWD,Premium Gasoline,17,24
+No match found,0,Unknown,6020630835289459,,0.0,0.0,,,,0,0
+Nova,0,Unknown,1306665488576693,,0.0,0.0,,,,0,0
 Oldsmobile,0,Unknown,9862442226057767,,0.0,0.0,,,,0,0
 Oldsmobile,1984,Custom Cruiser,6586631892755215,Midsize-Large Station Wagons,8.0,5.0,Automatic 4,Unknown,Regular Gasoline,13,20
 Oldsmobile,1984,Cutlass Ciera,8730193330447310,Midsize Cars,6.0,4.3,Automatic 3,Unknown,Regular Gasoline,16,23
@@ -9063,6 +9082,8 @@ Oldsmobile,2003,Silhouette,5374384864183252,Minivan - 2WD,6.0,3.4,Automatic 4,AW
 Oldsmobile,2004,Alero,282989360612146,Compact Cars,4.0,2.2,Automatic 4,FWD,Regular Gasoline,18,27
 Oldsmobile,2004,Bravada,2064894063627004,Sport Utility Vehicle - 2WD,6.0,4.2,Automatic 4,AWD,Regular Gasoline,14,19
 Oldsmobile,2004,Silhouette,5374384847405633,Minivan - 2WD,6.0,3.4,Automatic 4,AWD,Regular Gasoline,16,22
+Orion,0,Unknown,5539297115578144,,0.0,0.0,,,,0,0
+Other,0,Unknown,764781073579675,,0.0,0.0,,,,0,0
 PAS Inc - GMC,0,Unknown,4616993722324915,,0.0,0.0,,,,0,0
 PAS Inc - GMC,1992,Pas-Syclone,9256517365966554,Small Pickup Trucks,6.0,4.3,Automatic 4,AWD,Premium Gasoline,14,17
 PAS Inc - GMC,1992,Pas-typhoon,79542877641010,Special Purpose Vehicles,6.0,4.3,Automatic 4,AWD,Premium Gasoline,14,17
@@ -9082,6 +9103,7 @@ Panoz Auto-Development,1995,Panoz Roadster,6654173244761658,Two Seaters,8.0,5.0,
 Panther Car Company Limited,0,Unknown,1126558953272218,,0.0,0.0,,,,0,0
 Panther Car Company Limited,1986,Kallista,1281679619992339,Two Seaters,4.0,2.3,Automatic 3,RWD,Regular Gasoline,19,22
 Panther Car Company Limited,1988,Kallista,1281679854879005,Two Seaters,4.0,2.3,Automatic 3,RWD,Regular Gasoline,18,22
+Peterbilt,0,Unknown,1836878414157334,,0.0,0.0,,,,0,0
 Peugeot,0,Unknown,2718108368989724,,0.0,0.0,,,,0,0
 Peugeot,1984,505,3944765639008468,Compact Cars,4.0,2.3,Automatic 3,Unknown,Diesel,21,22
 Peugeot,1984,604,3931626949265422,Compact Cars,4.0,2.3,Automatic 3,Unknown,Diesel,21,23
@@ -9097,6 +9119,7 @@ Peugeot,1991,405,7585361423221761,Compact Cars,4.0,1.9,Manual 5,FWD,Regular Gaso
 Peugeot,1991,505,4226253517545726,Midsize-Large Station Wagons,4.0,2.2,Automatic 4,RWD,Regular Gasoline,16,20
 Peugeot,1992,405,7585361372888904,Compact Cars,4.0,1.9,Manual 5,FWD,Regular Gasoline,18,24
 Peugeot,1992,505,4226253500768107,Midsize-Large Station Wagons,4.0,2.2,Automatic 4,RWD,Regular Gasoline,16,19
+Pierce,0,Unknown,9029915557031419,,0.0,0.0,,,,0,0
 Pininfarina,0,Unknown,5727602911316392,,0.0,0.0,,,,0,0
 Pininfarina,1984,Spider,9992291568770689,Two Seaters,4.0,2.0,Automatic 3,Unknown,Regular Gasoline,18,21
 Pininfarina,1985,Spider,9992291551993070,Two Seaters,4.0,2.0,Automatic 3,RWD,Regular Gasoline,18,21
@@ -10099,8 +10122,11 @@ Scion,2016,FR-S,9169276598538562,Minicompact Cars,4.0,2.0,Automatic 6,RWD,Premiu
 Scion,2016,iA,4838045565454728,Subcompact Cars,4.0,1.5,Automatic 6,FWD,Regular Gasoline,31,40
 Scion,2016,iM,7011643673552468,Midsize Cars,4.0,1.8,Automatic 7,FWD,Regular Gasoline,27,35
 Scion,2016,tC,2746045823304659,Compact Cars,4.0,2.5,Automatic 6,FWD,Regular Gasoline,23,30
+Seagrave,0,Unknown,2449154492351427,,0.0,0.0,,,,0,0
 Shelby,0,Unknown,4676086423451152,,0.0,0.0,,,,0,0
 Shelby,2008,Mustang GT,5424355425128296,Two Seaters,8.0,4.6,Manual 5,RWD,Premium Gasoline,15,22
+Smart,0,Unknown,8719887392522560,,0.0,0.0,,,,0,0
+Spartan,0,Unknown,7752613674833350,,0.0,0.0,,,,0,0
 Spyker,0,Unknown,6913553386674139,,0.0,0.0,,,,0,0
 Spyker,2005,C8,6582229321792787,Two Seaters,8.0,4.2,Manual 6,RWD,Regular Gasoline,13,18
 Spyker,2006,C8,6582229338570406,Two Seaters,8.0,4.2,Manual 6,RWD,Regular Gasoline,13,18
@@ -10482,6 +10508,7 @@ Texas Coach Company,1986,500SE,1876467784396762,Midsize Cars,8.0,5.0,Automatic 4
 Texas Coach Company,1986,500SEC,4644946951972971,Compact Cars,8.0,5.0,Automatic 4,RWD,Regular Gasoline,11,14
 Texas Coach Company,1986,500SEL,1142333488079106,Midsize Cars,8.0,5.0,Automatic 4,RWD,Regular Gasoline,11,14
 Texas Coach Company,1986,500SL,8782388982585505,Two Seaters,8.0,5.0,Automatic 4,RWD,Regular Gasoline,11,14
+Thomas,0,Unknown,6691677547236723,,0.0,0.0,,,,0,0
 Toyota,0,Unknown,3233063173565461,,0.0,0.0,,,,0,0
 Toyota,1984,4Runner,1326626276687485,Special Purpose Vehicle 4WD,4.0,2.4,Manual 5,AWD,Regular Gasoline,16,19
 Toyota,1984,Cab Chassis,4897924433051131,Special Purpose Vehicles,4.0,2.4,Manual 4,2WD,Regular Gasoline,15,15
@@ -11088,6 +11115,8 @@ Toyota,2024,Tundra,730631037179995,Standard Pickup Trucks 4WD,6.0,3.4,Automatic 
 Toyota,2024,Venza,8285931505871237,Small Sport Utility Vehicle 4WD,4.0,2.5,Automatic 6,AWD,Regular Gasoline,40,37
 Toyota,2024,bZ4X,28393640102639,Small Sport Utility Vehicle 2WD,0.0,0.0,Automatic 1,AWD,Electricity,112,92
 Toyota,2025,Crown,6140112955568465,Midsize Cars,4.0,2.4,Automatic 6,AWD,Regular Gasoline,29,32
+Triumph,0,Unknown,1107786246646522,,0.0,0.0,,,,0,0
+Unknown,0,Unknown,8168321465439775,,0.0,0.0,,,,0,0
 VPG,0,Unknown,5889584809654418,,0.0,0.0,,,,0,0
 VPG,2011,MV-1,9093507313225897,Special Purpose Vehicle 2WD,8.0,4.6,Automatic 4,RWD,Natural Gas,11,16
 VPG,2012,MV-1,9093507262893040,Special Purpose Vehicle 2WD,8.0,4.6,Automatic 4,RWD,Natural Gas,11,16
@@ -11632,6 +11661,7 @@ Wallace Environmental,1992,Wetl 560,2554614505510144,Compact Cars,8.0,5.6,Automa
 Wallace Environmental,1992,Wetl 600 SEL,9603355629472023,Large Cars,12.0,6.0,Automatic 4,RWD,Premium Gasoline,11,14
 Wallace Environmental,1992,Wetl 850I,6193353636850013,Subcompact Cars,12.0,5.0,Automatic 4,RWD,Premium Gasoline,10,17
 Wallace Environmental,1992,Wetl Testarossa,4033010596831516,Two Seaters,12.0,4.9,Manual 5,RWD,Premium Gasoline,9,14
+Yamaha,0,Unknown,9358502146094768,,0.0,0.0,,,,0,0
 Yugo,0,Unknown,253112857013327,,0.0,0.0,,,,0,0
 Yugo,1986,Gy/yugo GVX,587458889925357,Minicompact Cars,4.0,1.1,Manual 4,FWD,Regular Gasoline,22,29
 Yugo,1987,GV/GVX,6723943363461331,Subcompact Cars,4.0,1.1,Manual 4,FWD,Regular Gasoline,24,29

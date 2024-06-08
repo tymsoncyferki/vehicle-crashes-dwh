@@ -1,6 +1,7 @@
 .idea
 .ipynb_checkpoints
 .env
+venv
 
 notebooks/.ipynb_checkpoints
 notebooks/.cache.sqlite

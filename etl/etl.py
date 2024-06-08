@@ -5,18 +5,24 @@ from drivers import drivers_pipeline, drivers_mapping_pipeline
 from crashes import crashes_pipeline, mapping_pipeline
 from nonmotorists import nonmoto_pipeline
 from roads import road_pipeline
-from utils import load_brands_dict, load_models_dict, update_models_mapper, load_area_mapper, soda_montgomery_request
+from weather import extract_weather_data, transform_weather_fact
+from datehour import generate_date_hour_dim
+from location import generate_location_area_dim
+from utils import load_models_dict, update_models_mapper, soda_montgomery_request, Static, Config
 
 
 class ETL:
 
     def __init__(self):
-        self.crash_data = None
-        self.weather_data = None
-        self.vehicles_data = None
-        self.drivers_data = None
-        self.road_data = None
-        self.nonmotorists_data = None
+        self.crash_data = pd.DataFrame()
+        self.drivers_data = pd.DataFrame()
+        self.nonmotorists_data = pd.DataFrame()
+        self.vehicles_data = pd.DataFrame()
+        self.road_data = pd.DataFrame()
+        self.weather_data = pd.DataFrame()
+        self.datehour_data = pd.DataFrame()
+        self.location_data = pd.DataFrame()
+        self.merged_data = pd.DataFrame()
 
     def extract_data(self, start_date, end_date):
         """ load data from different sources """
@@ -38,6 +44,13 @@ class ETL:
         # filter out vehicles already in dwh
         print('vehicles data rows:', len(self.vehicles_data))
 
+        weather_data = extract_weather_data(Static.ZIPCODES, start_date=start_date, end_date=end_date)
+        self.weather_data = weather_data
+        print('weather data rows:', len(self.weather_data))
+
+        self.datehour_data = generate_date_hour_dim(start_date=start_date, end_date=end_date)
+        print('datehour data rows:', len(self.weather_data))
+
         # self.crash_data = pd.read_csv("../data/montgomery_incidents_data.csv")
         # self.drivers_data = pd.read_csv("../data/montgomery_drivers.csv")
         # self.nonmotorists_data = pd.read_csv("../data/montgomery_nonmotorist.csv")
@@ -47,15 +60,11 @@ class ETL:
         """ run transformations """
         print('RUNNING TRANSFORMATIONS')
 
-        load_brands_dict()
-        print('Brands mapper loaded')
         self.vehicles_data = vehicles_pipeline(self.vehicles_data)
         print('Vehicles data transformed')
 
         update_models_mapper(self.vehicles_data[['Make', 'Year', 'BaseModel']])
-        print('Models mapper updated')
         load_models_dict()  # needs to be loaded after vehicles pipeline and updating mapper
-        print('Models mapper loaded')
 
         self.drivers_data = drivers_pipeline(self.drivers_data)
         print('Drivers data transformed')
@@ -70,12 +79,16 @@ class ETL:
         self.crash_data = crashes_pipeline(self.crash_data)
         print('Crashes data transformed')
 
+        self.weather_data = transform_weather_fact(self.weather_data)
+        print('Weather data transformed')
+
+        if Config.DWH_INITIALIZATION:
+            self.location_data = generate_location_area_dim(Static.ZIPCODES)
+            print('Location data generated')
+
     def join_data(self):
         """ generate foreign keys """
         print('RUNNING JOINING')
-
-        load_area_mapper()
-        print("Area mapper loaded")
 
         self.drivers_data = drivers_mapping_pipeline(self.drivers_data)
         print('Drivers data mapped')
@@ -86,22 +99,45 @@ class ETL:
         self.drivers_data = self.drivers_data.merge(self.crash_data, on='ReportNumber')
         print('Vehicle Crashes joined')
 
+    def merge_data(self):
+        """ merges all data for testing purposes """
+        try:
+            self.merged_data = self.drivers_data.merge(
+                self.vehicles_data, on='VehicleKey').merge(
+                self.road_data, left_on='RoadKey', right_on='RoadKey').merge(
+                self.road_data, left_on='CrossStreetKey', right_on='RoadKey').merge(
+                self.location_data, on='LocationAreaKey').merge(
+                self.weather_data, on=['LocationAreaKey', 'DateHourKey']).merge(
+                self.datehour_data, on='DateHourKey'
+            )
+        except (Exception, ) as e:
+            print(e)
+        fact_rows = len(self.drivers_data)
+        merged_rows = len(self.merged_data)
+        print('Vehicle Crashes table rows:', fact_rows)
+        print('Merged table rows:', merged_rows)
+        if fact_rows > merged_rows:
+            print('WARNING: Data cannot be fully merged')
+
     def load_data(self):
         """ load data to dwh"""
-        print('Vehicle Crashes table rows:', len(self.drivers_data))
-
         self.drivers_data.to_csv("../data/etl_out/VehicleCrashFact.csv", index=False)
         self.vehicles_data.to_csv("../data/etl_out/VehicleDim.csv", index=False)
         self.road_data.to_csv("../data/etl_out/RoadDim.csv", index=False)
-
+        self.weather_data.to_csv("../data/etl_out/WeatherFact.csv", index=False)
+        self.datehour_data.to_csv("../data/etl_out/DateHourDim.csv", index=False)
+        if Config.DWH_INITIALIZATION:
+            self.location_data.to_csv("../data/etl_out/LocationAreaDim.csv", index=False)
+        self.merged_data.to_csv("../data/etl_out/MergedData.csv", index=False)
         print('Tables saved succesfully')
 
 
 def main():
     etl = ETL()
-    etl.extract_data('2023-01-01', '2023-12-31')
+    etl.extract_data('2023-12-01', '2023-12-31')
     etl.transform_data()
     etl.join_data()
+    etl.merge_data()
     etl.load_data()
 
 
