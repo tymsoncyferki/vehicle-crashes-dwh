@@ -95,8 +95,8 @@ def soda_montgomery_request(dataset, start_date, end_date):
 
     Args:
         dataset (str): type of dataset to pull, available options: 'incidents', 'drivers', 'non-motorists'
-        start_date (str): The start date for data retrieval in "YYYY-MM-DD HH:MM:SS" format.
-        end_date (str): The end date for the data retrieval in "YYYY-MM-DD HH:MM:SS" format.
+        start_date (str): The start date for data retrieval in "YYYY-MM-DD" format.
+        end_date (str): The end date for the data retrieval in "YYYY-MM-DD" format.
 
     Returns:
         DataFrame: A DataFrame containing
@@ -111,6 +111,8 @@ def soda_montgomery_request(dataset, start_date, end_date):
                      username=os.getenv('SOTA_USER'),
                      password=os.getenv('SOTA_PWD'))
 
+    start_date = start_date.split(' ')[0]
+    end_date = end_date.split(' ')[0]
     where_clause = f"crash_date_time >= '{start_date}' AND crash_date_time <= '{end_date}'"
 
     results = client.get(data_key, where=where_clause, limit=1000000)

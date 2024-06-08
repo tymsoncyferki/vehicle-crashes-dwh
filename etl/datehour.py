@@ -42,7 +42,7 @@ def generate_date_hour_dim(start_date="2023-12-01 00:00:00", end_date="2024-12-3
         date_only = date.date()
         if date_only in us_holidays:
             return 1, us_holidays.get(date_only)
-        return 0, 'None'  # Using 'None' as a placeholder for no holiday
+        return 0, 'Unknown'  # Using 'None' as a placeholder for no holiday
 
     # Apply the holiday function to determine holiday flags and names
     date_hour_dim['HolidayFlag'], date_hour_dim['HolidayName'] = zip(*date_hour_dim['Datetime'].apply(is_holiday))

@@ -134,7 +134,7 @@ class ETL:
 
 def main():
     etl = ETL()
-    etl.extract_data('2023-12-01', '2023-12-31')
+    etl.extract_data('2023-12-01 00:00:00', '2023-12-31 23:00:00')
     etl.transform_data()
     etl.join_data()
     etl.merge_data()

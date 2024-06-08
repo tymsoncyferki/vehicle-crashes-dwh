@@ -69,13 +69,13 @@ def generate_blank_models(data):
         row = {'Make': make,
                'Year': 0,
                'BaseModel': "Unknown",
-               'VehicleKey': '',
-               'BodyClass': '',
+               'VehicleKey': 'Unknown',
+               'BodyClass': 'Unknown',
                'Cylinders': 0,
                'Displacement': 0,
-               'Transmission': '',
-               'Drivetrain': '',
-               'FuelType': '',
+               'Transmission': 'Unknown',
+               'Drivetrain': 'Unknown',
+               'FuelType': 'Unknown',
                'CityMPG': 0,
                'HighwayMPG': 0}
         data = pd.concat([data, pd.DataFrame([row])], ignore_index=True)

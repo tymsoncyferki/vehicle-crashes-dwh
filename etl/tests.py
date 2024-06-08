@@ -2,7 +2,8 @@ import unittest
 
 from utils import soda_montgomery_request, Static
 from location import generate_location_area_dim
-from weather import extract_weather_data
+from weather import extract_weather_data, transform_weather_fact
+from datehour import generate_date_hour_dim
 
 
 class TestUtils(unittest.TestCase):
@@ -27,4 +28,18 @@ class TestLocation(unittest.TestCase):
 
 class TestWeather(unittest.TestCase):
 
-    pass
+    def test_weatherkey_generation(self):
+        df_raw = extract_weather_data(Static.ZIPCODES, '2023-12-01 00:00:00', '2023-12-31 23:00:00')
+        df = transform_weather_fact(df_raw)
+        nulls = len(df[df.isna().any(axis=1)])
+        self.assertEqual(nulls, 0)
+        print(df.head(5))
+        print(df.tail(5))
+
+
+class TestDateHour(unittest.TestCase):
+
+    def test_datehour_generation(self):
+        df = generate_date_hour_dim()
+        nulls = len(df[df.isna().any(axis=1)])
+        self.assertEqual(nulls, 0)

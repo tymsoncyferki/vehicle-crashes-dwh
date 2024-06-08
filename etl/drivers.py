@@ -8,7 +8,7 @@ from vehicles import generate_vehicle_key
 
 
 def change_to_unknown(string):
-    return 'UNKNOWN' if (string.lower() == 'unknown' or string == 'nan' or string == '') else string
+    return 'UNKNOWN' if (string.lower() == 'unknown' or string.lower() == 'nan' or string.lower() == 'n/a' or string == '') else string
 
 
 def clean_substance_abuse(substance):

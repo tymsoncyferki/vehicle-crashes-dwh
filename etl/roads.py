@@ -4,7 +4,7 @@ from utils import fnv1a_hash_16_digit
 
 
 def change_to_unknown(string):
-    return 'UNKNOWN' if (string.lower() == 'unknown' or string == 'nan' or string == '') else string
+    return 'UNKNOWN' if (string.lower() == 'unknown' or string == 'nan' or string.lower() == 'n/a' or string == '') else string
 
 
 def prepare_roaddim_data(data):

@@ -41,7 +41,7 @@ def generate_location_area_dim(zipcodes):
     unknown_row = pd.DataFrame({
         'LocationAreaKey': 0,
         'Zipcode': 0,
-        'MailCity': '',
+        'MailCity': 'Unknown',
         'ShapeLength': 0,
         'ShapeArea': 0,
         'CentroidLatitude': 0,

@@ -15,8 +15,8 @@ def extract_weather_data(zipcodes, start_date="2023-12-01 00:00:00", end_date="2
 
     Args:
         zipcodes (DataFrame): A DataFrame containing ZIP codes and their geometries.
-        start_date (str): The start date for the weather data retrieval in "YYYY-MM-DD HH:MM:SS" format.
-        end_date (str): The end date for the weather data retrieval in "YYYY-MM-DD HH:MM:SS" format.
+        start_date (str): The start date for the weather data retrieval in "YYYY-MM-DD" format.
+        end_date (str): The end date for the weather data retrieval in "YYYY-MM-DD" format.
 
     Returns:
         DataFrame: A DataFrame containing weather data for the specified ZIP codes and date range.
@@ -32,12 +32,8 @@ def extract_weather_data(zipcodes, start_date="2023-12-01 00:00:00", end_date="2
     # Extract unique locations
     unique_locations = gdf[['ZIPCODE', 'centroid_latitude', 'centroid_longitude']].drop_duplicates()
 
-    if Config.DWH_INITIALIZATION:
-        unknown_location = {
-            'ZIPCODE': 0,
-            'centroid_latitude': 0,
-            'centroid_longitude': 0
-        }
+    start_date = start_date.split(' ')[0]
+    end_date = end_date.split(' ')[0]
 
     # Setup the Open-Meteo API client with cache and retry on error
     cache_session = requests_cache.CachedSession('.cache', expire_after=-1)
@@ -78,6 +74,8 @@ def extract_weather_data(zipcodes, start_date="2023-12-01 00:00:00", end_date="2
             hourly_windspeed_10m = hourly.Variables(5).ValuesAsNumpy()
             hourly_winddirection_10m = hourly.Variables(6).ValuesAsNumpy()
 
+            utc_offset = response.UtcOffsetSeconds()
+
             hourly_data = {
                 "date": pd.date_range(
                     start=pd.to_datetime(hourly.Time(), unit="s", utc=True),
@@ -98,6 +96,8 @@ def extract_weather_data(zipcodes, start_date="2023-12-01 00:00:00", end_date="2
             hourly_dataframe['ZIPCODE'] = row['ZIPCODE']  # Add ZIP code to the dataframe
             hourly_dataframe['Latitude'] = row['centroid_latitude']  # Add Latitude to the dataframe
             hourly_dataframe['Longitude'] = row['centroid_longitude']  # Add Longitude to the dataframe
+
+            hourly_dataframe['date'] = hourly_dataframe['date'] + pd.Timedelta(seconds=utc_offset)
 
             dfs.append(hourly_dataframe)
 
@@ -135,7 +135,12 @@ def transform_weather_fact(result):
             result['Longitude'].astype(str).str.replace('.', '', regex=False).str.replace('-', '', regex=False).str[1:6] +
             result['Latitude'].astype(str).str.replace('.', '', regex=False).str.replace('-', '', regex=False).str[1:6]
     )
-    result['WeatherKey'] = (result['LocationAreaKey'].astype(str) + '_' + result['date'].astype(str)).apply(hash).apply(abs)
+    result['WeatherKey'] = (
+            result['DateHourKey'].astype(str).str[2:] +
+            result['LocationAreaKey'].astype(str).str[1:6] +
+            result['LocationAreaKey'].astype(str).str[9:14]
+    ).astype(np.int64)
+    # result['WeatherKey'] = (result['LocationAreaKey'].astype(str) + '_' + result['date'].astype(str)).apply(hash).apply(abs)
 
     # Prepare the WeatherFact DataFrame
     WeatherFact = result.drop(columns=['date', 'Latitude', 'Longitude', 'ZIPCODE'])
