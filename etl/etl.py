@@ -43,7 +43,10 @@ class ETL:
         self.nonmotorists_data = nonmotorists_data
         print('non motorists data rows:', len(self.nonmotorists_data))
 
-        vehicles_data = pd.read_csv("https://www.fueleconomy.gov/feg/epadata/vehicles.csv")
+        if Config.DEBUG:
+            vehicles_data = pd.read_csv("../data/vehicles.csv")
+        else:
+            vehicles_data = pd.read_csv("https://www.fueleconomy.gov/feg/epadata/vehicles.csv")
         self.vehicles_data = vehicles_data
         # filter out vehicles already in dwh
         print('vehicles data rows:', len(self.vehicles_data))
@@ -153,7 +156,7 @@ class ETL:
 
 def main():
     etl = ETL()
-    etl.extract_data('2020-12-01 00:00:00', '2020-12-31 23:00:00')
+    etl.extract_data('2021-01-01 00:00:00', '2021-12-31 23:00:00')
     etl.transform_data()
     etl.join_data()
     etl.merge_data()

@@ -13,7 +13,7 @@ class Config:
     FROM_FILES = False
     """ if pipeline is run from local files instead api """
 
-    DEBUG = False
+    DEBUG = True
 
     SOTA_TOKEN = os.getenv("SOTA_TOKEN")
     """ Montgomery data portal API token """
