@@ -12,7 +12,7 @@ from insertion import load_data_to_dwh
 class TestInsertion(unittest.TestCase):
 
     def test_insert_roaddim(self):
-        roaddim = pd.read_csv("../data/etl_out/RoadDim.csv")
+        roaddim = pd.read_csv("out/RoadDim.csv")
         success = load_data_to_dwh(roaddim, 'RoadDim')
         self.assertTrue(success)
 

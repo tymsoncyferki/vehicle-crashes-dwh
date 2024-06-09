@@ -7,7 +7,7 @@ from config import Config
 
 
 def load_brands_dict(return_=False):
-    cars_mapper = pd.read_csv("../data/static/car_makes.txt")
+    cars_mapper = pd.read_csv("static/car_makes.txt")
     brands_dict = cars_mapper.set_index('unique_makes_to_map')['unique_makes'].to_dict()
     print('Brands mapper loaded')
     if return_:
@@ -17,7 +17,7 @@ def load_brands_dict(return_=False):
 
 
 def load_models_dict(return_=False):
-    models_mapper = pd.read_csv("../data/static/car_models.csv")
+    models_mapper = pd.read_csv("static/car_models.csv")
     models_dict = {}
 
     for index, row in models_mapper.iterrows():
@@ -35,15 +35,15 @@ def load_models_dict(return_=False):
 
 
 def update_models_mapper(vehicles_agg):
-    models_mapper = pd.read_csv("../data/static/car_models.csv")
+    models_mapper = pd.read_csv("static/car_models.csv")
     new_model_mapper = pd.concat([models_mapper, vehicles_agg])
     new_model_mapper = new_model_mapper.drop_duplicates()
-    new_model_mapper.to_csv("../data/static/car_models.csv", index=False)
+    new_model_mapper.to_csv("static/car_models.csv", index=False)
     print('Models mapper updated')
 
 
 def load_area_mapper(return_=False):
-    area_mapper = pd.read_csv("../data/area_mapper.csv")
+    area_mapper = pd.read_csv("static/area_mapper.csv")
     area_mapper['Geometry'] = area_mapper['Geometry'].apply(load_wkt)
     gdf = gpd.GeoDataFrame(area_mapper, geometry='Geometry')
     print("Area mapper loaded")
@@ -54,7 +54,7 @@ def load_area_mapper(return_=False):
 
 
 def load_zipcodes(return_=False):
-    zipcodes = pd.read_csv("../data/ZIPCODES.csv")
+    zipcodes = pd.read_csv("static/ZIPCODES.csv")
     print('Zipcodes data loaded')
     if return_:
         return zipcodes

@@ -43,12 +43,8 @@ class ETL:
         self.nonmotorists_data = nonmotorists_data
         print('non motorists data rows:', len(self.nonmotorists_data))
 
-        if Config.DEBUG:
-            vehicles_data = pd.read_csv("../data/vehicles.csv")
-        else:
-            vehicles_data = pd.read_csv("https://www.fueleconomy.gov/feg/epadata/vehicles.csv")
+        vehicles_data = pd.read_csv("https://www.fueleconomy.gov/feg/epadata/vehicles.csv")
         self.vehicles_data = vehicles_data
-        # filter out vehicles already in dwh
         print('vehicles data rows:', len(self.vehicles_data))
 
         weather_data = extract_weather_data(Static.ZIPCODES, start_date=start_date, end_date=end_date)
@@ -134,14 +130,14 @@ class ETL:
         print("RUNNING DWH INSERTION")
 
         if Config.DEBUG:
-            self.drivers_data.to_csv("../data/etl_out/VehicleCrashFact.csv", index=False)
-            self.vehicles_data.to_csv("../data/etl_out/VehicleDim.csv", index=False)
-            self.road_data.to_csv("../data/etl_out/RoadDim.csv", index=False)
-            self.weather_data.to_csv("../data/etl_out/WeatherFact.csv", index=False)
-            self.datehour_data.to_csv("../data/etl_out/DateHourDim.csv", index=False)
+            self.drivers_data.to_csv("out/VehicleCrashFact.csv", index=False)
+            self.vehicles_data.to_csv("out/VehicleDim.csv", index=False)
+            self.road_data.to_csv("out/RoadDim.csv", index=False)
+            self.weather_data.to_csv("out/WeatherFact.csv", index=False)
+            self.datehour_data.to_csv("out/DateHourDim.csv", index=False)
             if Config.DWH_INITIALIZATION:
-                self.location_data.to_csv("../data/etl_out/LocationAreaDim.csv", index=False)
-            self.merged_data.to_csv("../data/etl_out/MergedData.csv", index=False)
+                self.location_data.to_csv("out/LocationAreaDim.csv", index=False)
+            self.merged_data.to_csv("out/MergedData.csv", index=False)
             print('Tables saved succesfully')
 
         else:
@@ -152,16 +148,22 @@ class ETL:
             load_data_to_dwh(self.datehour_data, 'DateHourDim')
             load_data_to_dwh(self.weather_data, 'WeatherFact')
             load_data_to_dwh(self.drivers_data, 'VehicleCrashFact')
+            print('Tables inserted succesfully')
 
 
-def main():
+def main(start_date, end_date):
+    print(f'RUNNING ETL PIPELINE from {start_date} to {end_date}')
+    print("-----")
     etl = ETL()
-    etl.extract_data('2021-01-01 00:00:00', '2021-12-31 23:00:00')
+    etl.extract_data(start_date, end_date)
     etl.transform_data()
     etl.join_data()
-    etl.merge_data()
+    if Config.DWH_INITIALIZATION:
+        etl.merge_data()
     etl.load_data()
+    green = '\033[92m'
+    print(f"{green}ETL PROCESS FINISHED WITH SUCCESS{green}")
 
 
 if __name__ == "__main__":
-    main()
+    main('2021-01-01 00:00:00', '2021-12-31 23:00:00')

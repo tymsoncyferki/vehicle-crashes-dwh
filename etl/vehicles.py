@@ -1,4 +1,5 @@
 import re
+from datetime import datetime
 
 import numpy as np
 import pandas as pd
@@ -13,6 +14,8 @@ def prepare_vehicles_data(data):
                  'fuelType1', 'city08', 'highway08']]
     data.columns = ['VehicleKey', 'Make', 'BaseModel', 'Model', 'Year', 'BodyClass', 'Cylinders', 'Displacement',
                     'Transmission', 'Drivetrain', 'FuelType', 'CityMPG', 'HighwayMPG']
+    if not Config.DWH_INITIALIZATION:
+        data = data[data['Year'] >= datetime.now().year - 1]
     data.astype(str)
     data.loc[:, ['VehicleKey', 'Year', 'Cylinders', 'Displacement', 'CityMPG', 'HighwayMPG']] = data[
         ['VehicleKey', 'Year', 'Cylinders', 'Displacement', 'CityMPG', 'HighwayMPG']].astype(float)
