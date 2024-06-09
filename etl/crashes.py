@@ -58,10 +58,9 @@ def handle_nans(data):
 
 def map_to_datetime(date_str):
     try:
-        if Config.FROM_FILES:
-            date = datetime.strptime(date_str, "%m/%d/%Y %I:%M:%S %p")
-        else:
-            date = datetime.strptime(date_str, '%Y-%m-%dT%H:%M:%S.%f')
+        date = datetime.strptime(date_str, '%Y-%m-%dT%H:%M:%S.%f')
+        # if Config.FROM_FILES:
+        #     date = datetime.strptime(date_str, "%m/%d/%Y %I:%M:%S %p")
     except (Exception,):
         date = ""
     return date

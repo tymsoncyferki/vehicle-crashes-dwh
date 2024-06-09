@@ -6,7 +6,7 @@ from utils import soda_montgomery_request, Static
 from location import generate_location_area_dim
 from weather import extract_weather_data, transform_weather_fact
 from datehour import generate_date_hour_dim
-from insertion import load_data_to_dwh
+from insertion import load_data_to_dwh, check_last_update
 
 
 class TestInsertion(unittest.TestCase):
@@ -15,6 +15,10 @@ class TestInsertion(unittest.TestCase):
         roaddim = pd.read_csv("out/RoadDim.csv")
         success = load_data_to_dwh(roaddim, 'RoadDim')
         self.assertTrue(success)
+
+    def test_check_update(self):
+        end_date = check_last_update()
+        print(end_date)
 
 
 class TestUtils(unittest.TestCase):

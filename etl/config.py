@@ -7,13 +7,14 @@ load_dotenv()
 
 class Config:
 
-    DWH_INITIALIZATION = True
+    DWH_INITIALIZATION = False
     """ if this is the first time laoding data into data warehouse """
 
-    FROM_FILES = False
-    """ if pipeline is run from local files instead api """
+    DEBUG = False
+    """ if output files are saved locally """
 
-    DEBUG = True
+    N_RETRIES = 3
+    """ number of retries for query to soda """
 
     SOTA_TOKEN = os.getenv("SOTA_TOKEN")
     """ Montgomery data portal API token """

@@ -1,3 +1,6 @@
+from datetime import datetime, timedelta
+from dateutil.relativedelta import *
+
 import pandas as pd
 
 from vehicles import vehicles_pipeline
@@ -8,7 +11,7 @@ from roads import road_pipeline
 from weather import extract_weather_data, transform_weather_fact
 from datehour import generate_date_hour_dim
 from location import generate_location_area_dim
-from insertion import load_data_to_dwh
+from insertion import load_data_to_dwh, check_last_update
 from utils import load_models_dict, update_models_mapper, soda_montgomery_request, Static
 from config import Config
 
@@ -43,7 +46,7 @@ class ETL:
         self.nonmotorists_data = nonmotorists_data
         print('non motorists data rows:', len(self.nonmotorists_data))
 
-        vehicles_data = pd.read_csv("https://www.fueleconomy.gov/feg/epadata/vehicles.csv")
+        vehicles_data = pd.read_csv("https://www.fueleconomy.gov/feg/epadata/vehicles.csv", low_memory=False)
         self.vehicles_data = vehicles_data
         print('vehicles data rows:', len(self.vehicles_data))
 
@@ -53,11 +56,6 @@ class ETL:
 
         self.datehour_data = generate_date_hour_dim(start_date=start_date, end_date=end_date)
         print('datehour data rows:', len(self.weather_data))
-
-        # self.crash_data = pd.read_csv("../data/montgomery_incidents_data.csv")
-        # self.drivers_data = pd.read_csv("../data/montgomery_drivers.csv")
-        # self.nonmotorists_data = pd.read_csv("../data/montgomery_nonmotorist.csv")
-        # self.vehicles_data = pd.read_csv("../data/vehicles.csv")
 
     def transform_data(self):
         """ run transformations """
@@ -148,22 +146,77 @@ class ETL:
             load_data_to_dwh(self.datehour_data, 'DateHourDim')
             load_data_to_dwh(self.weather_data, 'WeatherFact')
             load_data_to_dwh(self.drivers_data, 'VehicleCrashFact')
-            print('Tables inserted succesfully')
 
 
-def main(start_date, end_date):
-    print(f'RUNNING ETL PIPELINE from {start_date} to {end_date}')
+def etl_pipeline(start_date=None, end_date=None, message=None):
+    """ runs ETL pipeline """
+
+    try:
+        if start_date is None or end_date is None:
+            print("-----")
+            print("Checking last update date...")
+            last_end_date = check_last_update()
+            start_date = last_end_date + timedelta(hours=1)
+            end_date = (start_date + relativedelta(months=1) - timedelta(hours=1)).strftime("%Y-%m-%d %H:%M:%S")
+            start_date = start_date.strftime("%Y-%m-%d %H:%M:%S")
+            if message is None:
+                message = 'regular update'
+        else:
+            if message is None:
+                message = 'custom update'
+    except (Exception, ) as e:
+        print("Error ocurred during last update check, aborting...", e)
+        return
+
     print("-----")
+    print(f'RUNNING ETL PIPELINE from {start_date} to {end_date}')
+
     etl = ETL()
-    etl.extract_data(start_date, end_date)
-    etl.transform_data()
-    etl.join_data()
+
+    try:
+        etl.extract_data(start_date, end_date)
+    except (Exception, ) as e:
+        print("Error ocurred during extraction phase, aborting...", e)
+        return
+
+    try:
+        etl.transform_data()
+    except (Exception, ) as e:
+        print("Error ocurred during transform phase, aborting...", e)
+        return
+
+    try:
+        etl.join_data()
+    except (Exception, ) as e:
+        print("Error ocurred during joining phase, aborting...", e)
+        return
+
+    # otherwise it cannot be merged (no access to all location and vehicles data)
     if Config.DWH_INITIALIZATION:
-        etl.merge_data()
-    etl.load_data()
+        try:
+            etl.merge_data()
+        except (Exception,):
+            pass
+
+    try:
+        etl.load_data()
+
+        update_data = pd.DataFrame({
+            'LastUpdate': datetime.now(),
+            'StartDate': start_date,
+            'EndDate': end_date,
+            'UpdateMessage': message
+        }, index=[0])
+        load_data_to_dwh(update_data, 'Metadata', skip_duplicates=False)
+
+    except (Exception, ) as e:
+        print("Error ocurred during load phase, aborting...", e)
+        return
+
     green = '\033[92m'
     print(f"{green}ETL PROCESS FINISHED WITH SUCCESS{green}")
 
 
 if __name__ == "__main__":
-    main('2021-01-01 00:00:00', '2021-12-31 23:00:00')
+    # etl_pipeline('2021-01-01 00:00:00', '2021-12-31 23:00:00')
+    etl_pipeline()

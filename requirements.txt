@@ -7,6 +7,6 @@ requests_cache==1.2.0
 retry_requests==2.0.0
 Shapely==2.0.4
 sodapy==2.2.0
-
 holidays~=0.50
 pyodbc~=5.1.0
+python-dateutil~=2.9.0.post0

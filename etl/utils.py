@@ -103,8 +103,19 @@ def soda_montgomery_request(dataset, start_date, end_date):
     end_date = end_date.split(' ')[0]
     where_clause = f"crash_date_time >= '{start_date}' AND crash_date_time <= '{end_date}'"
 
-    results = client.get(data_key, where=where_clause, limit=1000000)
-    results_df = pd.DataFrame.from_records(results)
+    results_df = None
+    e = None
+    for _ in range(Config.N_RETRIES):
+        try:
+            results = client.get(data_key, where=where_clause, limit=1000000)
+            results_df = pd.DataFrame.from_records(results)
+            break
+        except (Exception, ) as e:
+            print("Error ocurred, sending another request", e)
+            continue
+
+    if results_df is None:
+        raise ConnectionError(f"could not get {dataset} from montgomery data portal:", e)
 
     return results_df
 

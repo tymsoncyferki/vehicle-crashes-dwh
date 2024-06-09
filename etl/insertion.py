@@ -5,20 +5,9 @@ from config import Config
 
 
 def load_data_to_dwh(table, table_name, skip_duplicates=True):
-    connection_string = f"""
-        DRIVER={{{Config.DRIVER_NAME}}};
-        SERVER={{{Config.SERVER_NAME}}};
-        DATABASE={{{Config.DATABASE_NAME}}};
-        Trust_Connection=yes;
-        uid={{{Config.DWH_USER}}};
-        pwd={{{Config.DWH_PASSWORD}}};
-    """
-    print()
-    try:
-        conn = pyodbc.connect(connection_string)
-        print('Connection succesful:', conn)
-    except Exception as e:
-        print(f'Could not connect to {Config.DATABASE_NAME}@{Config.SERVER_NAME}:', e)
+
+    conn = connect_to_db()
+    if conn is None:
         return False
 
     cursor = conn.cursor()
@@ -42,8 +31,27 @@ def load_data_to_dwh(table, table_name, skip_duplicates=True):
     return True
 
 
-def generate_insertion_query(table_name, columns, skip_duplicates=True):
+def connect_to_db():
+    connection_string = f"""
+        DRIVER={{{Config.DRIVER_NAME}}};
+        SERVER={{{Config.SERVER_NAME}}};
+        DATABASE={{{Config.DATABASE_NAME}}};
+        Trust_Connection=yes;
+        uid={{{Config.DWH_USER}}};
+        pwd={{{Config.DWH_PASSWORD}}};
+    """
 
+    try:
+        conn = pyodbc.connect(connection_string)
+        print(f'Connection to {Config.DATABASE_NAME}@{Config.SERVER_NAME} succesful:', conn)
+    except Exception as e:
+        print(f'Could not connect to {Config.DATABASE_NAME}@{Config.SERVER_NAME}:', e)
+        return None
+
+    return conn
+
+
+def generate_insertion_query(table_name, columns, skip_duplicates=True):
     column_list = ", ".join(columns)
     placeholders = ", ".join(["?"] * len(columns))
     insert_statement = f"INSERT INTO {table_name} ({column_list}) VALUES ({placeholders});"
@@ -72,3 +80,23 @@ def generate_insertion_query(table_name, columns, skip_duplicates=True):
 def generate_cursor_values(row, columns):
     values = [row[col] for col in columns]
     return values
+
+
+def check_last_update():
+    conn = connect_to_db()
+    if conn is None:
+        pass
+
+    query = """ select top 1 EndDate from Metadata
+            order by LastUpdate DESC """
+
+    cursor = conn.cursor()
+    cursor.execute(query)
+
+    rows = cursor.fetchall()
+    end_date = rows[0][0]
+
+    cursor.close()
+    conn.close()
+
+    return end_date
