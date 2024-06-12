@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from sodapy import Socrata
 import pandas as pd
 import geopandas as gpd
@@ -104,20 +106,48 @@ def soda_montgomery_request(dataset, start_date, end_date):
     where_clause = f"crash_date_time >= '{start_date}' AND crash_date_time <= '{end_date}'"
 
     results_df = None
-    e = None
-    for _ in range(Config.N_RETRIES):
-        try:
-            results = client.get(data_key, where=where_clause, limit=1000000)
-            results_df = pd.DataFrame.from_records(results)
-            break
-        except (Exception, ) as e:
-            print("Error ocurred, sending another request", e)
-            continue
+
+    if not Config.LOCAL_FILES:
+        for _ in range(Config.N_RETRIES):
+            try:
+                results = client.get(data_key, where=where_clause, limit=1000000)
+                results_df = pd.DataFrame.from_records(results)
+                break
+            except (Exception, ) as e:
+                print("Error ocurred, sending another request", e)
+                continue
 
     if results_df is None:
-        raise ConnectionError(f"could not get {dataset} from montgomery data portal:", e)
+        # raise ConnectionError(f"Could not fetch {dataset} from montgomery data portal")
+        print(f"{Colors.YELLOW}Could not connect to {dataset}-data-{data_key}@data.montgomerycountymd.gov,"
+              f" loading local data{Colors.RESET}")
+        results_df = load_local_montgomery_data(dataset, start_date, end_date)
+    else:
+        print(f"Connection to {data_key}@data.montgomerycountymd.gov succesful")
 
     return results_df
+
+
+def load_local_montgomery_data(dataset, start_date, end_date):
+    df = pd.read_csv(f"emergency/{dataset}.csv", low_memory=False)
+    df.columns = change_column_names(df.columns)
+
+    start_date = pd.to_datetime(start_date)
+    end_date = pd.to_datetime(end_date)
+
+    def map_to_datetime(date_str):
+        try:
+            date = datetime.strptime(date_str, "%m/%d/%Y %I:%M:%S %p")
+        except (Exception,):
+            date = pd.NaT
+        return date
+
+    df['crash_custom'] = df['crash_date_time'].apply(map_to_datetime)
+    filtered_df = df[(df['crash_custom'] >= start_date) & (df['crash_custom'] <= end_date)].copy()
+    filtered_df.drop(['crash_custom'], axis=1, inplace=True)
+
+    # crash_date_time
+    return filtered_df
 
 
 def fnv1a_hash_16_digit(s: str) -> int:
@@ -142,7 +172,17 @@ def fnv1a_hash_16_digit(s: str) -> int:
 
 
 def change_column_names(column_names):
-    columns = [col.lower().replace('', '_') for col in column_names]
+    columns = [col.lower().replace(' ', '_').replace('-', '_').replace('/', '_') for col in column_names]
     return columns
 
 
+class Colors:
+    PURPLE = '\033[95m'
+    BLUE = '\033[94m'
+    CYAN = '\033[96m'
+    GREEN = '\033[92m'
+    YELLOW = '\033[93m'
+    RED = '\033[91m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
+    RESET = '\033[0m'

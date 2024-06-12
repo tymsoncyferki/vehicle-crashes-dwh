@@ -37,7 +37,8 @@ def filter_columns(data):
 
 
 def change_to_unknown(string):
-    return 'UNKNOWN' if (string.lower() == 'unknown' or string.lower() == 'nan' or string.lower() == 'n/a' or string == '') else string
+    return 'UNKNOWN' if (
+                string.lower() == 'unknown' or string.lower() == 'nan' or string.lower() == 'n/a' or string == '') else string
 
 
 def handle_nans(data):
@@ -58,7 +59,10 @@ def handle_nans(data):
 
 def map_to_datetime(date_str):
     try:
-        date = datetime.strptime(date_str, '%Y-%m-%dT%H:%M:%S.%f')
+        if Config.LOCAL_FILES:
+            date = datetime.strptime(date_str, "%m/%d/%Y %I:%M:%S %p")
+        else:
+            date = datetime.strptime(date_str, '%Y-%m-%dT%H:%M:%S.%f')
     except (Exception,):
         date = ""
     return date

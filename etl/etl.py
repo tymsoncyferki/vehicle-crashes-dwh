@@ -12,7 +12,7 @@ from weather import extract_weather_data, transform_weather_fact
 from datehour import generate_date_hour_dim
 from location import generate_location_area_dim
 from insertion import load_data_to_dwh, check_last_update
-from utils import load_models_dict, update_models_mapper, soda_montgomery_request, Static
+from utils import load_models_dict, update_models_mapper, soda_montgomery_request, Static, Colors
 from config import Config
 
 
@@ -32,7 +32,7 @@ class ETL:
     def extract_data(self, start_date, end_date):
         """ load data from different sources """
         print("-----")
-        print(f'RUNNING EXTRACTION from {start_date} to {end_date}')
+        print(f'{Colors.PURPLE}RUNNING EXTRACTION from {start_date} to {end_date}{Colors.RESET}')
 
         crash_data = soda_montgomery_request('incidents', start_date=start_date, end_date=end_date)
         self.crash_data = crash_data
@@ -60,7 +60,7 @@ class ETL:
     def transform_data(self):
         """ run transformations """
         print("-----")
-        print('RUNNING TRANSFORMATIONS')
+        print(f'{Colors.PURPLE}RUNNING TRANSFORMATIONS{Colors.RESET}')
 
         self.vehicles_data = vehicles_pipeline(self.vehicles_data)
         print('Vehicles data transformed')
@@ -91,7 +91,7 @@ class ETL:
     def join_data(self):
         """ generate foreign keys """
         print("-----")
-        print('RUNNING JOINING')
+        print(f'{Colors.PURPLE}RUNNING JOINING{Colors.RESET}')
 
         self.drivers_data = drivers_mapping_pipeline(self.drivers_data)
         print('Drivers data mapped')
@@ -125,7 +125,7 @@ class ETL:
     def load_data(self):
         """ load data to dwh"""
         print("-----")
-        print("RUNNING DWH INSERTION")
+        print(f"{Colors.PURPLE}RUNNING DWH INSERTION{Colors.RESET}")
 
         if Config.DEBUG:
             self.drivers_data.to_csv("out/VehicleCrashFact.csv", index=False)
@@ -169,7 +169,7 @@ def etl_pipeline(start_date=None, end_date=None, message=None):
         return
 
     print("-----")
-    print(f'RUNNING ETL PIPELINE from {start_date} to {end_date}')
+    print(f'{Colors.PURPLE}RUNNING ETL PIPELINE from {start_date} to {end_date}{Colors.RESET}')
 
     etl = ETL()
 
@@ -201,22 +201,22 @@ def etl_pipeline(start_date=None, end_date=None, message=None):
     try:
         etl.load_data()
 
-        update_data = pd.DataFrame({
-            'LastUpdate': datetime.now(),
-            'StartDate': start_date,
-            'EndDate': end_date,
-            'UpdateMessage': message
-        }, index=[0])
-        load_data_to_dwh(update_data, 'Metadata', skip_duplicates=False)
+        if not Config.DEBUG:
+            update_data = pd.DataFrame({
+                'LastUpdate': datetime.now(),
+                'StartDate': start_date,
+                'EndDate': end_date,
+                'UpdateMessage': message
+            }, index=[0])
+            load_data_to_dwh(update_data, 'Metadata', skip_duplicates=False)
 
     except (Exception, ) as e:
         print("Error ocurred during load phase, aborting...", e)
         return
 
-    green = '\033[92m'
-    print(f"{green}ETL PROCESS FINISHED WITH SUCCESS{green}")
+    print(f"{Colors.GREEN}ETL PROCESS FINISHED WITH SUCCESS{Colors.RESET}")
 
 
 if __name__ == "__main__":
-    # etl_pipeline('2017-01-01 00:00:00', '2017-12-31 23:00:00', message='custom update')
+    # etl_pipeline('2015-08-01 00:00:00', '2015-08-31 23:00:00', message='custom update for 2 months')
     etl_pipeline()

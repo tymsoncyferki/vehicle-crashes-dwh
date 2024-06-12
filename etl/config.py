@@ -13,6 +13,9 @@ class Config:
     DEBUG = False
     """ if output files are saved locally """
 
+    LOCAL_FILES = True
+    """ if to load montgomerry data from local files """
+
     N_RETRIES = 3
     """ number of retries for query to soda """
 
