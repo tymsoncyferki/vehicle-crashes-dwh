@@ -59,8 +59,6 @@ def handle_nans(data):
 def map_to_datetime(date_str):
     try:
         date = datetime.strptime(date_str, '%Y-%m-%dT%H:%M:%S.%f')
-        # if Config.FROM_FILES:
-        #     date = datetime.strptime(date_str, "%m/%d/%Y %I:%M:%S %p")
     except (Exception,):
         date = ""
     return date
@@ -68,7 +66,7 @@ def map_to_datetime(date_str):
 
 def transform_columns(data):
     data = data.copy()
-    # nothing to clean 'ReportNumber', 'LocalCaseNumber', 'AgencyName', maybe validate?
+    # nothing to clean 'ReportNumber', 'LocalCaseNumber', 'AgencyName'
     # clean acrs report type
     data['ACRSReportType'] = data['ACRSReportType'].apply(lambda x: x.replace("Crash", ""))
     # crash date to datetime format

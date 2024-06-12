@@ -2,11 +2,13 @@ import unittest
 
 import pandas as pd
 
-from utils import soda_montgomery_request, Static
+from utils import soda_montgomery_request, Static, fnv1a_hash_16_digit
 from location import generate_location_area_dim
 from weather import extract_weather_data, transform_weather_fact
 from datehour import generate_date_hour_dim
 from insertion import load_data_to_dwh, check_last_update
+from crashes import crashes_pipeline, map_location
+from drivers import map_models, map_makes
 
 
 class TestInsertion(unittest.TestCase):
@@ -24,14 +26,15 @@ class TestInsertion(unittest.TestCase):
 class TestUtils(unittest.TestCase):
 
     def test_soda_request(self):
-        # start_date = "2015-01-01"
-        # end_date = "2023-12-31"
-        # df = soda_montgomery_request('drivers', start_date, end_date)
-
         df = soda_montgomery_request('incidents', start_date='2023-12-01', end_date='2023-12-31')
-        print(len(df))
-        print(df.columns)
         self.assertGreater(len(df), 900)
+
+    def test_hash_function(self):
+        hash1 = fnv1a_hash_16_digit("ANDERSONAVECounty")
+        hash2 = fnv1a_hash_16_digit("ANDERSONAVECounty")
+        self.assertEqual(hash1, hash2)
+        self.assertEqual(type(hash1), int)
+        self.assertEqual(len(str(hash1)), 16)
 
 
 class TestLocation(unittest.TestCase):
@@ -41,15 +44,45 @@ class TestLocation(unittest.TestCase):
         self.assertEqual(len(df), 98)
 
 
+class TestCrashes(unittest.TestCase):
+
+    def test_crashes_pipeline(self):
+        df_raw = soda_montgomery_request('incidents', start_date='2023-12-01', end_date='2023-12-31')
+        df = crashes_pipeline(df_raw)
+        nulls = len(df[df.isna().any(axis=1)])
+        self.assertEqual(nulls, 0)
+
+    def test_location_mapping(self):
+        key = map_location(39.077134, -77.146004, Static.AREA_MAPPER)
+        self.assertGreater(key, 0)
+
+    def test_location_mapping_unknown(self):
+        key = map_location(69.077134, -27.146004, Static.AREA_MAPPER)
+        self.assertEqual(key, 0)
+
+
 class TestWeather(unittest.TestCase):
 
-    def test_weatherkey_generation(self):
+    def test_weather_generation(self):
         df_raw = extract_weather_data(Static.ZIPCODES, '2023-12-01 00:00:00', '2023-12-31 23:00:00')
         df = transform_weather_fact(df_raw)
         nulls = len(df[df.isna().any(axis=1)])
         self.assertEqual(nulls, 0)
-        print(df.head(5))
-        print(df.tail(5))
+
+
+class TestDrivers(unittest.TestCase):
+
+    def test_make_mapping(self):
+        make = map_makes('oYOTA')
+        self.assertEqual("Toyota", make)
+
+    def test_model_mapping(self):
+        model = map_models('yrs', 'Toyota', 2015)
+        self.assertEqual(model, 'Yaris')
+
+    def test_model_mapping_unknown(self):
+        model = map_models('X3', 'Toyota', 2015)
+        self.assertEqual(model, 'Unknown')
 
 
 class TestDateHour(unittest.TestCase):

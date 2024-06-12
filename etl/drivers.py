@@ -140,8 +140,6 @@ def map_models(model, make, year):
     except KeyError:
         return 'Unknown'
 
-    # if make == 'BMW' and model only numbers, take first digit. map 3 series -> 3 etc
-
     if len(found_models_lower) == 0:
         return 'Unknown'
 

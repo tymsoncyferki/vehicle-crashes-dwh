@@ -124,8 +124,11 @@ def fnv1a_hash_16_digit(s: str) -> int:
     """
     FNV-1a Hash Function to hash a string to a 16-digit deterministic integer value.
 
-    :param s: Input string to hash
-    :return: Deterministic 16-digit integer hash value
+    Args:
+        s (str): Input string to hash
+
+    Returns:
+        Deterministic 16-digit integer hash value
     """
     fnv_prime = 0x1000193
     hash_value = 0xcbf29ce484222325

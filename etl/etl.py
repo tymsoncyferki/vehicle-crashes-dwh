@@ -55,7 +55,7 @@ class ETL:
         print('weather data rows:', len(self.weather_data))
 
         self.datehour_data = generate_date_hour_dim(start_date=start_date, end_date=end_date)
-        print('datehour data rows:', len(self.weather_data))
+        print('datehour data rows:', len(self.datehour_data))
 
     def transform_data(self):
         """ run transformations """
@@ -218,5 +218,5 @@ def etl_pipeline(start_date=None, end_date=None, message=None):
 
 
 if __name__ == "__main__":
-    # etl_pipeline('2021-01-01 00:00:00', '2021-12-31 23:00:00')
+    # etl_pipeline('2017-01-01 00:00:00', '2017-12-31 23:00:00', message='custom update')
     etl_pipeline()

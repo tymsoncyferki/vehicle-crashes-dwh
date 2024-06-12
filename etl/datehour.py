@@ -18,10 +18,8 @@ def generate_date_hour_dim(start_date="2023-12-01 00:00:00", end_date="2024-12-3
     # Generate a date range with hourly frequency
     date_range = pd.date_range(start=start_date, end=end_date, freq='h')
 
-    # Create the DateHourDim DataFrame
     date_hour_dim = pd.DataFrame(date_range, columns=['Datetime'])
 
-    # Populate the columns
     date_hour_dim['DateHourKey'] = date_hour_dim['Datetime'].dt.strftime('%Y%m%d%H').astype(int)
     date_hour_dim['Hour'] = date_hour_dim['Datetime'].dt.hour
     date_hour_dim['TimeOfDay'] = np.where(date_hour_dim['Hour'] < 12, 'AM', 'PM')
@@ -41,7 +39,7 @@ def generate_date_hour_dim(start_date="2023-12-01 00:00:00", end_date="2024-12-3
         date_only = date.date()
         if date_only in us_holidays:
             return 1, us_holidays.get(date_only)
-        return 0, 'Unknown'  # Using 'None' as a placeholder for no holiday
+        return 0, 'Unknown'  # Using 'Unknown' as a placeholder for no holiday
 
     # Apply the holiday function to determine holiday flags and names
     date_hour_dim['HolidayFlag'], date_hour_dim['HolidayName'] = zip(*date_hour_dim['Datetime'].apply(is_holiday))
@@ -53,8 +51,4 @@ def generate_date_hour_dim(start_date="2023-12-01 00:00:00", end_date="2024-12-3
     # Drop duplicates to ensure unique DateHourKey entries
     date_hour_dim = date_hour_dim.drop_duplicates(subset=['DateHourKey'])
 
-    # Display the DateHourDim DataFrame (for debugging purposes)
-    # print(date_hour_dim)
-
-    # Return the DateHourDim DataFrame
     return date_hour_dim

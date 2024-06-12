@@ -130,17 +130,10 @@ def transform_weather_fact(result):
     result['DateHourKey'] = result['date'].dt.strftime('%Y%m%d%H').astype(np.int64)
 
     result['WeatherKey'] = (
-            result['DateHourKey'].astype(str)[2:] +
-            result['Longitude'].astype(str).str.replace('.', '', regex=False).str.replace('-', '', regex=False).str[
-            1:6] +
-            result['Latitude'].astype(str).str.replace('.', '', regex=False).str.replace('-', '', regex=False).str[1:6]
-    )
-    result['WeatherKey'] = (
             result['DateHourKey'].astype(str).str[2:] +
             result['LocationAreaKey'].astype(str).str[1:6] +
             result['LocationAreaKey'].astype(str).str[9:14]
     ).astype(np.int64)
-    # result['WeatherKey'] = (result['LocationAreaKey'].astype(str) + '_' + result['date'].astype(str)).apply(hash).apply(abs)
 
     # Prepare the WeatherFact DataFrame
     WeatherFact = result.drop(columns=['date', 'Latitude', 'Longitude', 'ZIPCODE'])
