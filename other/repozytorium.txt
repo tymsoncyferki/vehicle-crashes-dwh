@@ -1,0 +1,11 @@
+repozytorium: https://github.com/tymsoncyferki/vehicle-crashes-dwh/tree/main
+
+branch main - wersja aplikacji z zapytaniami do API
+branch emergency - wersja z ładowaniem danych z plików lokalnych
+
+data - wszystkie dane na których pracowaliśmy
+data_warehouse_backup - plik bak pustej bazy danych
+etl - moduły i pliki procesu ETL
+notebooks - testy i transformacje, wszystko co tam jest zostało przepisane do etl
+other - 
+powerbi - wszystko co związane z wizualizacjami
